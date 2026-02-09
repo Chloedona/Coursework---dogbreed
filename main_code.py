@@ -33,7 +33,6 @@ with open(filename, 'r') as f:
 
 def global_alignment(seq_a, seq_b):
 
-
     return alignment
 
 def percent_difference(alignment):
