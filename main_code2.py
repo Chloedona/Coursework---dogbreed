@@ -8,7 +8,7 @@ def load_sequences(fasta_file):
     return sequences
 
 from Bio import pairwise2
-
+#Define function for performing global alignment between two sequences and returning the best alignment
 def alignment_score(seq1, seq2):
     # Perform global alignment using the pairwise2 module from Biopython
     alignments = pairwise2.align.globalxx(seq1, seq2)
@@ -30,14 +30,14 @@ def find_closest_breed(test_seq, database):
     return best_record.id, best_score
 
 import numpy as np
-
+# Define function to compute p-value (z-score) for the best alignment score compared to a distribution of scores
 def p_value(best_score, all_scores):
     mean = np.mean(all_scores)
     std = np.std(all_scores)
-
+# Avoid division by zero in case all scores are the same
     if std == 0:
         return 0
-
+# Compute z-score for the best score
     z_score = (best_score - mean) / std
     return z_score
 
