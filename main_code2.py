@@ -103,7 +103,7 @@ def main():
     z = p_value(best_score, all_scores)
     print("Z-score:", z)
 
-    # Optional phylogeny
+    #  phylogeny
     alignment_path = "alignment.fasta"
     if not os.path.exists(alignment_path):
         build_alignment_from_sequences(database + [test_seq_record], alignment_path)
