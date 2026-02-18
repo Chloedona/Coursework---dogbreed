@@ -7,15 +7,17 @@ def load_sequences(fasta_file):
         sequences.append((record))
     return sequences
 
-from Bio import pairwise2
+from Bio.Align import PairwiseAligner
 #Define function for performing global alignment between two sequences and returning the best alignment
 def alignment_score(seq1, seq2):
-    # Perform global alignment using the pairwise2 module from Biopython
-    alignments = pairwise2.align.globalxx(seq1, seq2)
-    # Get the best alignment score (the first one in the list)
-    best_alignment = alignments[0]
-
-    return best_alignment.score
+    aligner = PairwiseAligner()
+    aligner.mode = "global"
+    # Mirror pairwise2.globalxx: match=1, mismatch=0, no gap penalties
+    aligner.match_score = 1.0
+    aligner.mismatch_score = 0.0
+    aligner.open_gap_score = 0.0
+    aligner.extend_gap_score = 0.0
+    return aligner.score(seq1, seq2)
 
 def find_closest_breed(test_seq, database):
     best_score = -1
@@ -78,8 +80,8 @@ def build_alignment_from_sequences(records, alignment_file):
 def main():
 
     # Load database and test sequence
-    database = load_sequences("Data/toy_refs.fasta")
-    test_seq_record = load_sequences("toy_test.fasta")[0]
+    database = load_sequences("Data/dog_breeds.fa")
+    test_seq_record = load_sequences("Data/mystery.fa")[0]
 
     test_seq = test_seq_record.seq
 
